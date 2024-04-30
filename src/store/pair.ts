@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import type { CurrencyPair } from "../utils/types";
 
-interface State {
+type State = {
   currencyPairValue: CurrencyPair;
 }
 

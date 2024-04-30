@@ -3,14 +3,7 @@ import api from "./api.ts";
 import { usePairStore } from "../../store/pair";
 import { onBeforeMount, ref, onBeforeUnmount, shallowRef } from "vue";
 import type { ShallowRef, Ref } from "vue";
-import type {
-  Buffer,
-  Data,
-  FilterData,
-  FullData,
-  InitData,
-  Socket,
-} from "./types.ts";
+import type { Buffer, Data, FullData, InitData, Socket } from "./types.ts";
 
 const store = usePairStore();
 const limits = [100, 500, 1000];
@@ -25,7 +18,11 @@ const data: Ref<Data> = ref([]);
 const isLoading = ref(false);
 const isError = ref(false);
 
-let filterData: FilterData = function (newData, oldData = []) {
+// let filterData: FilterData = function (newData, oldData = []) {
+function filterData(
+  newData: InitData[],
+  oldData: FullData[] | [] = []
+): FullData[] {
   let arr = newData.reduce((acc: FullData[], [p, q]): FullData[] => {
     const numberP = Number(p);
     const numberQ = Number(q);
@@ -37,9 +34,9 @@ let filterData: FilterData = function (newData, oldData = []) {
   }, []);
 
   return [...arr, ...oldData].slice(0, limit.value);
-};
+}
 
-function clearData(errorValue = false) {
+function clearData(errorValue: boolean = false): void {
   data.value = [];
   buffer.value = {};
   lastU.value = null;

@@ -4,14 +4,14 @@ export type Data = [FullData[], FullData[]] | [];
 
 export type Buffer = {
   [key: string]: {
-    a: FullData[];
-    b: FullData[];
+    a: InitData[];
+    b: InitData[];
     u: number;
   };
 };
 
 export type FilterData = (
-  newData: InitData[] | FullData[],
+  newData: InitData[],
   oldData?: FullData[]
 ) => FullData[];
 
