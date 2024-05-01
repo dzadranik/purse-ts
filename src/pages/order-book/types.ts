@@ -1,5 +1,7 @@
+export type Limit = 100 | 500 | 1000;
+
 export type InitData = [string, string];
-export type FullData = [string, string, string];
+export type FullData = [...InitData, string];
 export type Data = [FullData[], FullData[]] | [];
 
 export type Buffer = {
@@ -10,9 +12,7 @@ export type Buffer = {
   };
 };
 
-export type FilterData = (
-  newData: InitData[],
-  oldData?: FullData[]
-) => FullData[];
-
-export type Socket = WebSocket;
+// export type FilterData = (
+//   newData: InitData[],
+//   oldData?: FullData[]
+// ) => FullData[];

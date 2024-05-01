@@ -3,16 +3,17 @@ import api from "./api.ts";
 import { usePairStore } from "../../store/pair";
 import { onBeforeMount, ref, onBeforeUnmount, shallowRef } from "vue";
 import type { ShallowRef, Ref } from "vue";
-import type { Buffer, Data, FullData, InitData, Socket } from "./types.ts";
+import type { Buffer, Data, FullData, InitData, Limit } from "./types.ts";
 
 const store = usePairStore();
-const limits = [100, 500, 1000];
-const limit = ref(100);
 
-const socket: Ref<Socket | null> = ref(null);
+const limits: Limit[] = [100, 500, 1000];
+const limit: Ref<Limit> = ref(100);
+
+const socket: Ref<WebSocket | null> = ref(null);
 const buffer: ShallowRef<Buffer> = shallowRef({});
 const lastU: Ref<number | null> = ref(null);
-const lastUpdateId: Ref<number> = ref(0);
+const lastUpdateId: Ref<number | null> = ref(0);
 const data: Ref<Data> = ref([]);
 
 const isLoading = ref(false);
@@ -40,7 +41,7 @@ function clearData(errorValue: boolean = false): void {
   data.value = [];
   buffer.value = {};
   lastU.value = null;
-  lastUpdateId.value = 0;
+  lastUpdateId.value = null;
   isLoading.value = false;
 
   if (socket.value) {
@@ -96,7 +97,8 @@ function updateShot() {
         ];
 
         lastU.value = bufferValue[lastUValueNext].u;
-        lastUpdateId.value = 0;
+        lastUpdateId.value = null;
+        break;
       }
     }
   }
